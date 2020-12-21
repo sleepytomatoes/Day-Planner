@@ -1,55 +1,20 @@
 
-  // dateFns.isToday(new Date())
-  // //=> true
-
-  // var test = dateFns.isToday(new Date())
-  // console.log(test)
-
-
-
-  // const date = new Date();
-  // const today = new Intl.DateTimeFormat("en-GB", { dateStyle: "full"}).format();
-  // var hours = eachHourOfInterval({
-  //   start: new Date(2020, 11, 18, 9),
-  //   end: new Date(2020, 11, 18, 17)
-  // });
-  // console.log(hours); // error: eachHourOfInterval is not defined
-  // var content = $("#timeContent").textContent;
-  // var timeOfDay = $(".time-slot");
-  // var saveButton = $("#save");
-  // $("#currentDay").append(today);
-  
-  // var savedTimeContent = localStorage.getItem("savedTimeContent");
-  
-  // content.textContent = savedTimeContent;
-
-  // saveButton.click(function() {
-  //   content.textContent = savedTimeContent;
-  //   localStorage.setItem("savedTimeContent", content)
-  // });
-
-  //  if isFuture(timeOfDay) {
-  //    timeOfDay.css('background-color', 'green');
-  //  }
-  // if (timeOfDay.value) {
-    
-  // }
-
   const subContainer = $('.sub-container');
   const currentDay = $('#currentDay')
-  const formattedDate = dateFns.format(new Date(), 'MM/DD/YYYY')
+  const formattedDate = dateFns.format(new Date(), 'MMMM/DD/YYYY')
   currentDay.text(formattedDate)
-  console.log(dateFns.format(new Date(), 'MM/DD/YYYY'))
  
   const result = dateFns.isFuture(new Date())
 
   let todayRightNow = new Date(),
   msSinceMidnight = todayRightNow.getTime() - todayRightNow.setHours(0,0,0,0);
 
+  // military time will be used as a starting point from which to format the time format desired
   const militaryHour = msSinceMidnight / 3600000;
 
   let startingTime = 9;
 
+  // object with which to format saved notes in local storage
   const notes = [{
     index: 0,
     note: ""
@@ -61,6 +26,7 @@
     note: ""
   }]
 
+// Dynamically creates 9 rows for each hour in the work day using the object literal method
   for (i=0; i < 9; i++) {
     const rowHTML = `
     <div class="row-container">
@@ -75,12 +41,15 @@
       </div>
     </div>
     `
+    // appends rows to container 
     subContainer.append(rowHTML)
+    // variable for button created set equal to each individual button
     let buttonId = $(`#button-${i}`)
-    // let newNote = $(`row-${i}`).value
+    let newNote = $(`row-${i}`).value
     buttonId.on("click", saveNote(i, newNote))
   }
 
+  // this function takes in each time slot, and appends AM or PM respectively
   function formatTime (startingTime, i) {
     const newTime = startingTime + i;
     if (newTime <= 11) {
@@ -90,6 +59,7 @@
     }
   }
 
+  // used within the function above, takes military time and converts to standard
   function militaryToStandard (newTime) {
     if (newTime > 12) {
       return newTime - 12
@@ -98,7 +68,7 @@
     }
   }
 
-  
+  // this function checks to see if each individual row is in the past, present, or future and assigns classes accordingly
 function getColorCode (currentHour, rowHour) {
   if (currentHour > rowHour) {
     return "past"
@@ -110,11 +80,13 @@ function getColorCode (currentHour, rowHour) {
     
 }
 
+// this function creates military time as a starting point
 function getMilitaryTime (startingTime, i) {
   const newTime = startingTime + i;
   return newTime
 }
 
+// this function sets up variables to be used for local storage
 function saveNote (i, newNote) {
 
   notes[i].note = newNote
