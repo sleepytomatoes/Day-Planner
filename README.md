@@ -1,7 +1,7 @@
 # Day-Planner
 
 ## Installation
-this site can be deployed via this link in your web browser:
+this site can be deployed via this [link](https://sleepytomatoes.github.io/Day-Planner/) in your web browser.
 
 
 ## Usage
