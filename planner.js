@@ -17,7 +17,7 @@
   // this function uses date-fns to render and format the current date at the top of the page
   function renderDate () {
     const currentDay = $('#currentDay');
-    const formattedDate = dateFns.format(new Date(), 'MMMM/DD/YYYY');
+    const formattedDate = moment().format('MMMM Do YYYY')
     currentDay.text(formattedDate);
   }
 
